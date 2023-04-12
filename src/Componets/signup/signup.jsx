@@ -30,6 +30,7 @@ class Signup extends Component {
           password
         );
         createUserProfileDocument(user, { displayName });
+        console.log(user);
       } catch (error) {
         console.error(error);
       }
