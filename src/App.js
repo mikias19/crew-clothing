@@ -11,9 +11,11 @@ import { connect } from "react-redux";
 import { setCurrentUser } from "./Componets/redux/user/user.action";
 import { HomePage } from "./Componets/pages/homepages/homepage.jsx";
 import { Route, Routes } from "react-router-dom";
+//import { Navigate } from "react-router-dom";
 import { ShopPage } from "./Componets/pages/shop/shop";
 import Header from "./Componets/header/header";
 import SignInAndSingup from "./Componets/pages/sign-inAndsign-up/sign-inAndsign-up";
+//import { current } from "immer";
 class App extends React.Component {
   unsubscriptionFromAuth = null;
   componentDidMount() {
@@ -45,16 +47,30 @@ class App extends React.Component {
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route path="/shop" element={<ShopPage />} />
-          <Route path="/signin" element={<SignInAndSingup />} />
+          <Route
+            exact
+            path="/signin"
+            // render={() => {
+            //   return this.props.currentUser ? (
+            //     <Navigate to="/" />
+            //   ) : (
+            //     <SignInAndSingup />
+            //   );
+            // }}
+
+            element={<SignInAndSingup />}
+          />
         </Routes>
       </div>
     );
   }
 }
-
+const mapStateToprops = ({ user }) => ({
+  currentUser: user.currentUser,
+});
 const MapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => {
     dispatch(setCurrentUser(user));
   },
 });
-export default connect(null, MapDispatchToProps)(App);
+export default connect(mapStateToprops, MapDispatchToProps)(App);

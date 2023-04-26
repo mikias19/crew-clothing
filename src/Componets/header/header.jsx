@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { auth } from "../Firebase/firebase.utility";
 import { ReactComponent as Logo } from "../assets/crown.svg";
 import "./header.style.scss";
-const Header = ({ currentUser }) => {
+import CartIcon from "../collection-item/cart-icon/cart-icon";
+import CartDropDown from "../cart/cart-dropdown";
+const Header = ({ currentUser, hidden }) => {
   return (
     <div className="header">
       <Link to="/" className="logo-container">
@@ -26,9 +28,14 @@ const Header = ({ currentUser }) => {
             Sign In
           </Link>
         )}
+        <CartIcon />
       </div>
+      {hidden ? null : <CartDropDown />}
     </div>
   );
 };
-const mapStateToProps = (state) => ({ currentUser: state.user.currentUser });
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden,
+});
 export default connect(mapStateToProps)(Header);
